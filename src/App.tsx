@@ -419,6 +419,12 @@ const Footer = () => {
 
 function AppContent() {
   useEffect(() => {
+    // Scroll to top on load and prevent browser scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     const isMobile = window.innerWidth < 768;
     
     // Completely disable Lenis on mobile to allow native 60fps/120fps hardware-accelerated scrolling
