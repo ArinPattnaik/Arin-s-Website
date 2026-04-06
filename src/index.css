@@ -6,16 +6,16 @@
 }
 
 body {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #f8f9fa;
+  color: #000000;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #000000;
+  color: #f8f9fa;
 }
 
 /* Hide scrollbar for a cleaner look */

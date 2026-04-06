@@ -38,13 +38,13 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return (
-        <div className="bg-black min-h-screen text-white flex items-center justify-center px-4">
+        <div className="bg-[#f8f9fa] min-h-screen text-black flex items-center justify-center px-4">
           <div className="text-center max-w-md">
             <h1 className="text-4xl font-bold mb-4">Oops!</h1>
-            <p className="text-gray-300 mb-8">Something went wrong. Please try refreshing the page.</p>
+            <p className="text-gray-600 mb-8">Something went wrong. Please try refreshing the page.</p>
             <button 
               onClick={() => window.location.reload()} 
-              className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition-colors"
+              className="px-6 py-3 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition-colors"
             >
               Refresh Page
             </button>
@@ -65,7 +65,7 @@ const StaggeredText = ({ text, className }: { text: string, className?: string }
     <motion.div 
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, margin: "0px" }}
       variants={{
         visible: { transition: { staggerChildren: 0.1 } },
         hidden: {}
@@ -99,8 +99,8 @@ const FocusSection = ({ children, className }: { children: React.ReactNode, clas
 
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.35, 0.5, 0.65, 1],
-    [0.1, 1, 1, 1, 0.1]
+    [0, 0.15, 0.5, 0.85, 1],
+    [0.3, 1, 1, 1, 0.3]
   );
 
   return (
@@ -142,14 +142,14 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ children, className }) =>
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={cn("relative overflow-hidden rounded-[24px] bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]", className)}
+      className={cn("relative overflow-hidden rounded-[24px] bg-black/[0.02] border border-black/10 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)]", className)}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent opacity-50 pointer-events-none" />
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,.15), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(0,0,0,.04), transparent 40%)`,
         }}
       />
       <div className="relative z-10 h-full">
@@ -168,34 +168,34 @@ const Background = () => {
   return (
     <motion.div
       style={{ scale }}
-      className="fixed inset-0 z-0 w-full h-full pointer-events-none origin-center bg-[#050505]"
+      className="fixed inset-0 z-0 w-full h-full pointer-events-none origin-center bg-[#fdfdfd]"
     >
       <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[120px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 blur-[120px]" />
       </div>
-      <div className="absolute inset-0 backdrop-blur-[50px] bg-black/60 border border-white/5" />
+      <div className="absolute inset-0 backdrop-blur-[50px] bg-white/60 border border-black/5" />
     </motion.div>
   );
 };
 
 const TopLinks = () => (
-  <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 flex gap-8 px-8 py-4 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-xs font-mono tracking-widest uppercase">
-    <a href="https://github.com/ArinPattnaik" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">GitHub</a>
-    <a href="https://www.linkedin.com/in/arinpattnaik" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">LinkedIn</a>
-    <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 transition-colors">Resume</a>
+  <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 flex gap-8 px-8 py-4 rounded-full bg-black/5 backdrop-blur-xl border border-black/10 text-xs font-mono tracking-widest uppercase text-gray-700">
+    <a href="https://github.com/ArinPattnaik" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">GitHub</a>
+    <a href="https://www.linkedin.com/in/arinpattnaik" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">LinkedIn</a>
+    <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">Resume</a>
   </div>
 );
 
 const RightNav = () => (
   <nav className="fixed right-0 top-0 h-full w-16 md:w-24 z-50 flex flex-col justify-center items-center group">
-    <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 backdrop-blur-none group-hover:backdrop-blur-xl transition-all duration-500 border-l border-transparent group-hover:border-white/10" />
+    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.02] backdrop-blur-none group-hover:backdrop-blur-xl transition-all duration-500 border-l border-transparent group-hover:border-black/10" />
     <div className="relative flex flex-col gap-12 opacity-30 group-hover:opacity-100 transition-opacity duration-500">
       {['About', 'Expertise', 'Projects', 'Insights'].map((item) => (
         <a 
           key={item} 
           href={`#${item.toLowerCase()}`}
-          className="text-[10px] md:text-xs font-mono tracking-widest uppercase hover:text-white text-gray-400 transition-colors"
+          className="text-[10px] md:text-xs font-mono tracking-widest uppercase hover:text-black text-gray-500 transition-colors"
           style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
         >
           {item}
@@ -231,7 +231,7 @@ const Hero = () => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[#a0a0a0] font-mono text-sm md:text-base tracking-widest uppercase"
+              className="text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase"
             >
               {subtitles[subtitleIndex]}
             </motion.div>
@@ -256,7 +256,7 @@ const About = () => {
   return (
     <section id="about" className="min-h-screen w-full flex items-center justify-center px-8 md:px-24 py-32 relative z-10">
       <FocusSection className="max-w-5xl">
-        <p ref={ref} className="text-3xl md:text-5xl lg:text-6xl font-medium leading-tight tracking-tight flex flex-wrap">
+        <p ref={ref} className="text-3xl md:text-5xl lg:text-6xl font-medium leading-tight tracking-tight flex flex-wrap text-black">
           {words.map((word, i) => {
             const start = i / words.length;
             const end = start + (1 / words.length);
@@ -284,21 +284,21 @@ const Expertise = () => {
   return (
     <section id="expertise" className="min-h-screen w-full flex flex-col justify-center px-8 md:px-24 py-32 relative z-10">
       <FocusSection>
-        <h2 className="text-sm font-mono text-[#808080] tracking-widest uppercase mb-16">Expertise</h2>
+        <h2 className="text-sm font-mono text-gray-500 tracking-widest uppercase mb-16">Expertise</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {tools.map((tool, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "0px" }}
               transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <SpotlightCard className="p-8 aspect-square flex flex-col justify-between group">
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/20 backdrop-blur-xl flex items-center justify-center text-white font-mono text-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">0{i + 1}</div>
+                <div className="w-12 h-12 rounded-full bg-black/5 border border-black/10 backdrop-blur-xl flex items-center justify-center text-black font-mono text-sm shadow-[inset_0_1px_1px_rgba(0,0,0,0.05)]">0{i + 1}</div>
                 <div>
-                  <h3 className="text-xl font-bold tracking-tighter uppercase mb-3 text-white">{tool.name}</h3>
-                  <p className="text-[#a0a0a0] text-sm leading-relaxed">{tool.desc}</p>
+                  <h3 className="text-xl font-bold tracking-tighter uppercase mb-3 text-black">{tool.name}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{tool.desc}</p>
                 </div>
               </SpotlightCard>
             </motion.div>
@@ -320,17 +320,17 @@ const Works = () => {
   return (
     <section id="projects" className="min-h-screen w-full flex flex-col justify-center px-8 md:px-24 py-32 relative z-10">
       <FocusSection>
-        <h2 className="text-sm font-mono text-[#808080] tracking-widest uppercase mb-16">Selected Works</h2>
+        <h2 className="text-sm font-mono text-gray-500 tracking-widest uppercase mb-16">Selected Works</h2>
         <div className="flex flex-col w-full gap-12">
           {projects.map((project, i) => (
-            <div key={i} className="group border-b border-white/10 pb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div key={i} className="group border-b border-black/10 pb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div className="flex flex-col gap-4 max-w-3xl">
-                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase text-white">
+                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase text-black">
                   {project.name}
                 </h3>
-                <p className="text-[#a0a0a0] text-lg md:text-xl leading-relaxed">{project.desc}</p>
+                <p className="text-gray-600 text-lg md:text-xl leading-relaxed">{project.desc}</p>
               </div>
-              <span className="font-mono text-xs md:text-sm text-[#808080] uppercase tracking-widest whitespace-nowrap mt-4 md:mt-0">
+              <span className="font-mono text-xs md:text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap mt-4 md:mt-0">
                 {project.type}
               </span>
             </div>
@@ -344,7 +344,17 @@ const Works = () => {
 const Insights = () => {
   const targetRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: targetRef });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-65%"]);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const desktopX = useTransform(scrollYProgress, [0, 1], ["0%", "-65%"]);
+  const x = isMobile ? "0%" : desktopX;
 
   const insights = [
     { text: "Arin transformed our data pipeline, reducing processing time by 40%.", author: "Tech Lead, DataCorp" },
@@ -354,14 +364,14 @@ const Insights = () => {
   ];
 
   return (
-    <section id="insights" ref={targetRef} className="relative h-[300vh] z-10">
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <h2 className="text-sm font-mono text-[#808080] tracking-widest uppercase mb-16 px-8 md:px-24">Selected Insights</h2>
-        <motion.div style={{ x }} className="flex gap-8 px-8 md:px-24">
+    <section id="insights" ref={targetRef} className="relative md:h-[300vh] z-10">
+      <div className="md:sticky md:top-0 md:h-screen flex flex-col justify-center overflow-hidden py-32 md:py-0">
+        <h2 className="text-sm font-mono text-gray-500 tracking-widest uppercase mb-12 md:mb-16 px-8 md:px-24">Selected Insights</h2>
+        <motion.div style={{ x }} className="flex flex-col md:flex-row gap-8 px-8 md:px-24">
           {insights.map((t, i) => (
-            <SpotlightCard key={i} className="w-[80vw] md:w-[40vw] flex-shrink-0 p-12 flex flex-col justify-between min-h-[300px]">
-              <p className="text-2xl md:text-4xl font-medium leading-tight text-white mb-12">"{t.text}"</p>
-              <p className="text-sm font-mono text-[#808080] uppercase tracking-widest">{t.author}</p>
+            <SpotlightCard key={i} className="w-full md:w-[40vw] flex-shrink-0 p-8 md:p-12 flex flex-col justify-between min-h-[200px] md:min-h-[300px]">
+              <p className="text-xl md:text-3xl font-medium leading-tight text-black mb-12">"{t.text}"</p>
+              <p className="text-xs md:text-sm font-mono text-gray-500 uppercase tracking-widest">{t.author}</p>
             </SpotlightCard>
           ))}
         </motion.div>
@@ -372,21 +382,21 @@ const Insights = () => {
 
 const Footer = () => {
   return (
-    <footer className="w-full px-8 md:px-24 py-12 flex flex-col gap-16 border-t border-white/10 relative z-10 bg-black/50 backdrop-blur-md">
+    <footer className="w-full px-8 md:px-24 py-12 flex flex-col gap-16 border-t border-black/10 relative z-10 bg-[#f8f9fa]/80 backdrop-blur-md">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
         <div className="flex flex-col gap-2">
-          <a href="mailto:arinpattnaikofficial@gmail.com" className="text-2xl md:text-4xl font-bold tracking-tighter uppercase hover:text-[#a0a0a0] transition-colors">
+          <a href="mailto:arinpattnaikofficial@gmail.com" className="text-2xl md:text-4xl font-bold tracking-tighter uppercase text-black hover:text-gray-500 transition-colors">
             LET'S TALK <ArrowUpRight className="inline-block w-6 h-6 md:w-8 md:h-8" />
           </a>
         </div>
         
-        <div className="flex flex-col md:items-end gap-4 font-mono text-xs text-[#808080] tracking-widest uppercase">
+        <div className="flex flex-col md:items-end gap-4 font-mono text-xs text-gray-500 tracking-widest uppercase">
           <p>BHUBANESWAR, INDIA [20.27° N, 85.84° E]</p>
         </div>
       </div>
       
-      <div className="w-full text-center pt-8 border-t border-white/5">
-        <p className="font-mono text-[10px] md:text-xs text-[#606060] tracking-[0.2em] uppercase">
+      <div className="w-full text-center pt-8 border-t border-black/5">
+        <p className="font-mono text-[10px] md:text-xs text-gray-400 tracking-[0.2em] uppercase">
           "Often Imitated but never duplicated"
         </p>
       </div>
@@ -396,6 +406,8 @@ const Footer = () => {
 
 function AppContent() {
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -403,7 +415,8 @@ function AppContent() {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
+      syncTouch: true,
+      touchMultiplier: isMobile ? 1 : 2,
     });
 
     function raf(time: number) {
@@ -419,7 +432,7 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white selection:bg-white selection:text-black overflow-hidden">
+    <div className="bg-[#f8f9fa] min-h-screen text-black selection:bg-black selection:text-white overflow-hidden">
       <Background />
       <TopLinks />
       <RightNav />
@@ -444,4 +457,3 @@ export default function App() {
     </ErrorBoundary>
   );
 }
-
