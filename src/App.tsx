@@ -77,7 +77,7 @@ const StaggeredText = ({ text, className }: { text: string, className?: string }
           <motion.span
             variants={{
               hidden: { y: "100%", opacity: 0 },
-              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
             }}
             className="inline-block"
           >
@@ -142,7 +142,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ children, className }) =>
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={cn("relative overflow-hidden rounded-[24px] bg-black/[0.02] border border-black/10 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)]", className)}
+      className={cn("relative overflow-hidden rounded-[24px] bg-black/[0.02] border border-black/10 md:backdrop-blur-2xl backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.05)]", className)}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent opacity-50 pointer-events-none" />
       <div
@@ -163,18 +163,27 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ children, className }) =>
 
 const Background = () => {
   const { scrollYProgress } = useScroll();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <motion.div
-      style={{ scale }}
+      style={{ scale: isMobile ? 1 : scale }}
       className="fixed inset-0 z-0 w-full h-full pointer-events-none origin-center bg-[#fdfdfd]"
     >
       <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 blur-[120px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 md:blur-[120px] blur-3xl" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 md:blur-[120px] blur-3xl" />
       </div>
-      <div className="absolute inset-0 backdrop-blur-[50px] bg-white/60 border border-black/5" />
+      <div className="absolute inset-0 md:backdrop-blur-[50px] backdrop-blur-sm bg-white/60 border border-black/5" />
     </motion.div>
   );
 };
@@ -230,7 +239,7 @@ const Hero = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
               className="text-gray-500 font-mono text-sm md:text-base tracking-widest uppercase"
             >
               {subtitles[subtitleIndex]}
@@ -292,7 +301,7 @@ const Expertise = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px" }}
-              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: i * 0.1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <SpotlightCard className="p-8 aspect-square flex flex-col justify-between group">
                 <div className="w-12 h-12 rounded-full bg-black/5 border border-black/10 backdrop-blur-xl flex items-center justify-center text-black font-mono text-sm shadow-[inset_0_1px_1px_rgba(0,0,0,0.05)]">0{i + 1}</div>
@@ -409,14 +418,14 @@ function AppContent() {
     const isMobile = window.innerWidth < 768;
     
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: isMobile ? 1.8 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
       syncTouch: true,
-      touchMultiplier: isMobile ? 1 : 2,
+      touchMultiplier: isMobile ? 0.6 : 2,
     });
 
     function raf(time: number) {
