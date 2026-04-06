@@ -142,7 +142,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ children, className }) =>
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={cn("relative overflow-hidden rounded-[24px] bg-black/[0.02] border border-black/10 md:backdrop-blur-2xl backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.05)]", className)}
+      className={cn("relative overflow-hidden rounded-[24px] bg-black/[0.02] border border-black/10 md:backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)]", className)}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent opacity-50 pointer-events-none" />
       <div
@@ -180,10 +180,10 @@ const Background = () => {
       className="fixed inset-0 z-0 w-full h-full pointer-events-none origin-center bg-[#fdfdfd]"
     >
       <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 md:blur-[120px] blur-3xl" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 md:blur-[120px] blur-3xl" />
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 md:blur-[120px] max-md:hidden" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-black/5 md:blur-[120px] max-md:hidden" />
       </div>
-      <div className="absolute inset-0 md:backdrop-blur-[50px] backdrop-blur-sm bg-white/60 border border-black/5" />
+      <div className="absolute inset-0 md:backdrop-blur-[50px] bg-white/60 border border-black/5" />
     </motion.div>
   );
 };
@@ -391,7 +391,7 @@ const Insights = () => {
 
 const Footer = () => {
   return (
-    <footer className="w-full px-8 md:px-24 py-12 flex flex-col gap-16 border-t border-black/10 relative z-10 bg-[#f8f9fa]/80 backdrop-blur-md">
+    <footer className="w-full px-8 md:px-24 py-12 flex flex-col gap-16 border-t border-black/10 relative z-10 bg-[#f8f9fa] md:bg-[#f8f9fa]/80 md:backdrop-blur-md">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
         <div className="flex flex-col gap-2">
           <a href="mailto:arinpattnaikofficial@gmail.com" className="text-2xl md:text-4xl font-bold tracking-tighter uppercase text-black hover:text-gray-500 transition-colors">
@@ -417,15 +417,16 @@ function AppContent() {
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     
+    // Completely disable Lenis on mobile to allow native 60fps/120fps hardware-accelerated scrolling
+    if (isMobile) return;
+
     const lenis = new Lenis({
-      duration: isMobile ? 1.8 : 1.2,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      syncTouch: true,
-      touchMultiplier: isMobile ? 0.6 : 2,
     });
 
     function raf(time: number) {
