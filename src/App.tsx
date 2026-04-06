@@ -204,6 +204,10 @@ const RightNav = () => (
         <a 
           key={item} 
           href={`#${item.toLowerCase()}`}
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+          }}
           className="text-[10px] md:text-xs font-mono tracking-widest uppercase hover:text-black text-gray-500 transition-colors"
           style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
         >
