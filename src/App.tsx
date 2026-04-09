@@ -325,7 +325,7 @@ const Expertise = () => {
 const Works = () => {
   const projects = [
     { name: "MARKET PREDICTOR", type: "PYTHON / ML", desc: "A machine learning model forecasting market trends with 85% accuracy using historical data and sentiment analysis." },
-    { name: "SALES DASHBOARD", type: "TABLEAU", desc: "Interactive visualization suite tracking real-time KPIs across 5 global regions, adopted by 200+ stakeholders." },
+    { name: "E-COMMERCE SALES ANALYSIS", type: "PYTHON / STREAMLIT", link: "https://ecommerce-sales-analysis-arin.streamlit.app/", desc: "Universal analytics platform that auto-detects data types to build interactive dashboards, correlation matrices, and AI-powered insights. Includes specialized e-commerce deep-dive features." },
     { name: "ETL PIPELINE", type: "SQL / PYTHON", desc: "Automated data extraction and transformation pipeline handling 50GB+ daily, reducing manual reporting by 15 hours/week." },
     { name: "CUSTOMER CHURN", type: "POWERBI", desc: "Predictive dashboard identifying at-risk customers, leading to a 12% increase in retention through targeted interventions." }
   ];
@@ -338,8 +338,15 @@ const Works = () => {
           {projects.map((project, i) => (
             <div key={i} className="group border-b border-black/10 pb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div className="flex flex-col gap-4 max-w-3xl">
-                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase text-black">
-                  {project.name}
+                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase text-black flex items-center md:items-start gap-3">
+                  {project.link ? (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="hover:text-gray-500 transition-colors flex items-center gap-2 group-hover:gap-4 md:gap-4 md:group-hover:gap-6 duration-300">
+                      {project.name}
+                      <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12" />
+                    </a>
+                  ) : (
+                    project.name
+                  )}
                 </h3>
                 <p className="text-gray-600 text-lg md:text-xl leading-relaxed">{project.desc}</p>
               </div>
