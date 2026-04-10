@@ -324,7 +324,7 @@ const Expertise = () => {
 
 const Works = () => {
   const projects = [
-    { name: "MARKET PREDICTOR", type: "PYTHON / ML", desc: "A machine learning model forecasting market trends with 85% accuracy using historical data and sentiment analysis." },
+    { name: "GLOBAL JOB MARKET INTELLIGENCE", type: "PYTHON / STREAMLIT", link: "https://global-job-market-intelligence-platform-arin.streamlit.app/", desc: "A data-driven analytics platform providing deep insights into global employment. Analyzes extensive datasets to uncover trends in high-demand skills and salary distributions." },
     { name: "E-COMMERCE SALES ANALYSIS", type: "PYTHON / STREAMLIT", link: "https://ecommerce-sales-analysis-arin.streamlit.app/", desc: "Universal analytics platform that auto-detects data types to build interactive dashboards, correlation matrices, and AI-powered insights. Includes specialized e-commerce deep-dive features." },
     { name: "ETL PIPELINE", type: "SQL / PYTHON", desc: "Automated data extraction and transformation pipeline handling 50GB+ daily, reducing manual reporting by 15 hours/week." },
     { name: "CUSTOMER CHURN", type: "POWERBI", desc: "Predictive dashboard identifying at-risk customers, leading to a 12% increase in retention through targeted interventions." }
