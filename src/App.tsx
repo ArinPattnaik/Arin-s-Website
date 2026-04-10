@@ -464,7 +464,7 @@ const Footer = () => {
       </div>
       
       <div className="w-full text-center pt-8 border-t border-black/5">
-        <p className="font-mono text-[10px] md:text-xs text-gray-400 tracking-[0.2em] uppercase">
+        <p className="font-mono text-[10px] md:text-xs text-black tracking-[0.2em] uppercase">
           "Often Imitated but never duplicated"
         </p>
       </div>
