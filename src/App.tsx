@@ -322,8 +322,73 @@ const Expertise = () => {
   );
 };
 
+const ProjectItem = ({ project }: { project: any }) => {
+  const isVera = project.isVera;
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (isVera) {
+      e.preventDefault();
+      setClicked(true);
+      setTimeout(() => {
+        setClicked(false);
+        window.open(project.link, '_blank', 'noopener,noreferrer');
+      }, 500);
+    }
+  };
+
+  return (
+    <div className={cn(
+      "group border-b pb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative transition-colors duration-500",
+      clicked ? "border-[#10b981]/50" : "border-black/10"
+    )}>
+      {isVera && (
+        <div className={cn(
+          "absolute inset-0 pointer-events-none transition-all duration-700 blur-[80px] -z-10",
+          clicked ? "bg-[#10b981]/40 opacity-100" : "bg-[#10b981]/20",
+          "max-md:opacity-60",
+          "md:opacity-0 md:group-hover:opacity-100"
+        )} />
+      )}
+      <div className="flex flex-col gap-4 max-w-3xl z-10">
+        <h3 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase flex items-center md:items-start gap-3">
+          {project.link ? (
+            <a 
+              href={project.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              onClick={handleClick}
+              className={cn(
+                "transition-colors duration-500 flex items-center gap-2 group-hover:gap-4 md:gap-4 md:group-hover:gap-6",
+                isVera 
+                  ? (clicked 
+                      ? "text-[#10b981]" 
+                      : "text-black md:hover:text-[#10b981] max-md:text-[#059669]")
+                  : "text-black hover:text-gray-500"
+              )}
+            >
+              {project.name}
+              <ArrowUpRight className={cn("w-8 h-8 md:w-12 md:h-12 flex-shrink-0 transition-transform duration-500", clicked && "scale-110", isVera && "max-md:text-[#059669]")} />
+            </a>
+          ) : (
+            <span className="text-black">{project.name}</span>
+          )}
+        </h3>
+        <p className="text-gray-600 text-lg md:text-xl leading-relaxed">{project.desc}</p>
+      </div>
+      <span className={cn(
+        "font-mono text-xs md:text-sm uppercase tracking-widest whitespace-nowrap mt-4 md:mt-0 z-10 transition-colors duration-500",
+        isVera ? "text-[#059669]/80" : "text-gray-500"
+      )}>
+        {project.type}
+      </span>
+    </div>
+  );
+};
+
 const Works = () => {
   const projects = [
+    { name: "VÉRA", type: "REACT / NLP", link: "https://vera.arinpattnaik.me/", desc: "NLP-powered greenwashing scanner for fashion - paste a product link, get the True Eco-Score.", isVera: true },
     { name: "GLOBAL JOB MARKET INTELLIGENCE", type: "PYTHON / STREAMLIT", link: "https://global-job-market-intelligence-platform-arin.streamlit.app/", desc: "A data-driven analytics platform providing deep insights into global employment. Analyzes extensive datasets to uncover trends in high-demand skills and salary distributions." },
     { name: "E-COMMERCE SALES ANALYSIS", type: "PYTHON / STREAMLIT", link: "https://ecommerce-sales-analysis-arin.streamlit.app/", desc: "Universal analytics platform that auto-detects data types to build interactive dashboards, correlation matrices, and AI-powered insights. Includes specialized e-commerce deep-dive features." },
     { name: "ETL PIPELINE", type: "SQL / PYTHON", desc: "Automated data extraction and transformation pipeline handling 50GB+ daily, reducing manual reporting by 15 hours/week." },
@@ -336,24 +401,7 @@ const Works = () => {
         <h2 className="text-sm font-mono text-gray-500 tracking-widest uppercase mb-16">Selected Works</h2>
         <div className="flex flex-col w-full gap-12">
           {projects.map((project, i) => (
-            <div key={i} className="group border-b border-black/10 pb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              <div className="flex flex-col gap-4 max-w-3xl">
-                <h3 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase text-black flex items-center md:items-start gap-3">
-                  {project.link ? (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="hover:text-gray-500 transition-colors flex items-center gap-2 group-hover:gap-4 md:gap-4 md:group-hover:gap-6 duration-300">
-                      {project.name}
-                      <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12" />
-                    </a>
-                  ) : (
-                    project.name
-                  )}
-                </h3>
-                <p className="text-gray-600 text-lg md:text-xl leading-relaxed">{project.desc}</p>
-              </div>
-              <span className="font-mono text-xs md:text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap mt-4 md:mt-0">
-                {project.type}
-              </span>
-            </div>
+            <ProjectItem key={i} project={project} />
           ))}
         </div>
       </FocusSection>
