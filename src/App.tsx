@@ -292,18 +292,45 @@ const Hero: React.FC = () => {
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
-    v.play().catch(() => {});
+
+    const tryPlay = () => {
+      v.play().catch(() => {});
+    };
+    tryPlay();
+
+    // Some mobile browsers (iOS Low Power Mode, data-saver) block muted
+    // autoplay until the user interacts. Kick playback off on the first
+    // gesture, then stop listening.
+    const onFirstInteraction = () => {
+      tryPlay();
+      window.removeEventListener('touchstart', onFirstInteraction);
+      window.removeEventListener('pointerdown', onFirstInteraction);
+      window.removeEventListener('scroll', onFirstInteraction);
+    };
+    window.addEventListener('touchstart', onFirstInteraction, { passive: true });
+    window.addEventListener('pointerdown', onFirstInteraction, { passive: true });
+    window.addEventListener('scroll', onFirstInteraction, { passive: true });
+
+    // Retry once the tab becomes visible again (e.g. after switching apps).
+    const onVisible = () => { if (!document.hidden) tryPlay(); };
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      window.removeEventListener('touchstart', onFirstInteraction);
+      window.removeEventListener('pointerdown', onFirstInteraction);
+      window.removeEventListener('scroll', onFirstInteraction);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, []);
 
   return (
     <section ref={ref} className="relative h-[100svh] w-full overflow-hidden bg-base">
       {/* full-bleed video hero */}
-      <motion.div style={{ scale: mediaScale }} className="absolute inset-0">
+      <motion.div style={{ scale: mediaScale }} className="absolute inset-0 bg-base">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
           src="/hero.mp4"
-          poster="/projects/pureplate/ai ingredeient analysis.png"
           autoPlay
           muted
           loop
