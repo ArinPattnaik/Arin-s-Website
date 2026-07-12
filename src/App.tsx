@@ -292,35 +292,49 @@ const Hero: React.FC = () => {
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
+    v.defaultMuted = true;
+
+    let started = false;
 
     const tryPlay = () => {
-      v.play().catch(() => {});
+      if (started) return;
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
     };
-    tryPlay();
 
-    // Some mobile browsers (iOS Low Power Mode, data-saver) block muted
-    // autoplay until the user interacts. Kick playback off on the first
-    // gesture, then stop listening.
-    const onFirstInteraction = () => {
-      tryPlay();
-      window.removeEventListener('touchstart', onFirstInteraction);
-      window.removeEventListener('pointerdown', onFirstInteraction);
-      window.removeEventListener('scroll', onFirstInteraction);
-    };
-    window.addEventListener('touchstart', onFirstInteraction, { passive: true });
-    window.addEventListener('pointerdown', onFirstInteraction, { passive: true });
-    window.addEventListener('scroll', onFirstInteraction, { passive: true });
-
-    // Retry once the tab becomes visible again (e.g. after switching apps).
-    const onVisible = () => { if (!document.hidden) tryPlay(); };
-    document.addEventListener('visibilitychange', onVisible);
-
-    return () => {
-      window.removeEventListener('touchstart', onFirstInteraction);
-      window.removeEventListener('pointerdown', onFirstInteraction);
-      window.removeEventListener('scroll', onFirstInteraction);
+    const cleanup = () => {
+      v.removeEventListener('loadeddata', tryPlay);
+      v.removeEventListener('canplay', tryPlay);
+      v.removeEventListener('playing', onPlaying);
+      window.removeEventListener('touchstart', tryPlay);
+      window.removeEventListener('pointerdown', tryPlay);
+      window.removeEventListener('click', tryPlay);
+      window.removeEventListener('scroll', tryPlay);
+      window.removeEventListener('keydown', tryPlay);
       document.removeEventListener('visibilitychange', onVisible);
     };
+
+    // Stop retrying only once playback has genuinely begun.
+    const onPlaying = () => { started = true; cleanup(); };
+    const onVisible = () => { if (!document.hidden) tryPlay(); };
+
+    // Retry the moment the video has data...
+    v.addEventListener('loadeddata', tryPlay);
+    v.addEventListener('canplay', tryPlay);
+    v.addEventListener('playing', onPlaying);
+    // ...and on the first user gesture (covers iOS Low Power Mode / data-saver,
+    // which block muted autoplay until the user interacts)...
+    window.addEventListener('touchstart', tryPlay, { passive: true });
+    window.addEventListener('pointerdown', tryPlay, { passive: true });
+    window.addEventListener('click', tryPlay, { passive: true });
+    window.addEventListener('scroll', tryPlay, { passive: true });
+    window.addEventListener('keydown', tryPlay);
+    // ...and whenever the tab regains focus.
+    document.addEventListener('visibilitychange', onVisible);
+
+    tryPlay();
+
+    return cleanup;
   }, []);
 
   return (
